@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import cloudinary from "cloudinary";
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
+import cors from "cors";
 
 // routers
 import propertyRouter from "./routes/propertyRouter.js";
@@ -31,6 +32,13 @@ cloudinary.config({
 });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  process.env.CLIENT_URL,
+];
+
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
@@ -44,6 +52,12 @@ app.use(morgan("dev"));
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: process.env.NODE_ENV === "production" ? allowedOrigins : true,
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
