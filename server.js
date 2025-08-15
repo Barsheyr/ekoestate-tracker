@@ -123,22 +123,26 @@ cloudinary.config({
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// CORS configuration
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
   process.env.CLIENT_URL,
 ];
 
-// Middleware
+// Only use morgan in development
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+// Security middleware
 app.use(helmet());
 app.use(mongoSanitize());
+
+// Basic middleware
 app.use(express.json());
 app.use(cookieParser());
+
+// CORS configuration
 app.use(
   cors({
     origin: process.env.NODE_ENV === "production" ? allowedOrigins : true,
@@ -146,33 +150,32 @@ app.use(
   })
 );
 
-// Serve static files ONLY in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.resolve(__dirname, "./client/dist")));
-}
-
-// API Routes - these must come BEFORE the catch-all route
+// API routes (these must come BEFORE the static file serving)
 app.use("/api/v1/properties", authenticateUser, propertyRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", authenticateUser, userRouter);
 
-// Serve React app for all non-API routes (ONLY in production)
+// Serve static files in production
 if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.resolve(__dirname, "./client/dist")));
+
+  // Handle React routing - this should be the LAST route
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
   });
 } else {
-  // Development mode
+  // Development route
   app.get("/", (req, res) => {
-    res.send("API is working - Development Mode");
-  });
-
-  // 404 for non-API routes in development
-  app.use("*", (req, res) => {
-    res.status(404).json({ msg: "not found" });
+    res.send("Hello World - Development Mode");
   });
 }
 
+// 404 handler for API routes (this won't be reached in production due to the * route above)
+app.use("/api/*", (req, res) => {
+  res.status(404).json({ msg: "API route not found" });
+});
+
+// Global error handler
 app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 5100;
