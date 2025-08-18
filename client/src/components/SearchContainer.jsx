@@ -5,7 +5,7 @@ import {
   PROPERTY_TYPE,
   PROPERTY_STATUS,
   PROPERTY_SORT_BY,
-} from "../../../utils/constant";
+} from "../../../server/utils/constant.js";
 import { useAllPropertiesContext } from "../pages/AllProperty";
 
 const SearchContainer = () => {

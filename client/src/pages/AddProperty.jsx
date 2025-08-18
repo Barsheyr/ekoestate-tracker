@@ -1,7 +1,10 @@
 import { FormRow, FormRowSelect } from "../components";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { useOutletContext } from "react-router-dom";
-import { PROPERTY_TYPE, PROPERTY_STATUS } from "../../../utils/constant";
+import {
+  PROPERTY_TYPE,
+  PROPERTY_STATUS,
+} from "../../../server/utils/constant.js";
 import { Form, useNavigation, redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
