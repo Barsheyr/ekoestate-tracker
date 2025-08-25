@@ -27,13 +27,22 @@ export const login = async (req, res) => {
 
   const oneDay = 1000 * 60 * 60 * 24;
 
+  // res.cookie("token", token, {
+  //   httpOnly: true,
+  //   expires: new Date(Date.now() + oneDay),
+  //   secure: process.env.NODE_ENV === "production",
+  //   sameSite: "none",
+  //   domain: ".vercel.app",
+  // });
+
   res.cookie("token", token, {
     httpOnly: true,
     expires: new Date(Date.now() + oneDay),
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "none",
+    secure: true, // ← This is crucial for HTTPS
+    sameSite: "none", // ← This is crucial for cross-origin
+    domain: ".vercel.app", // ← This allows sharing across vercel subdomains
   });
-  res.status(StatusCodes.OK).json({ msg: "user logged in" });
+  res.status(StatusCodes.OK).json({ msg: "user logged in", token: token });
 };
 
 export const logout = (req, res) => {
