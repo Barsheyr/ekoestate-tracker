@@ -12,12 +12,14 @@ const Landing = () => {
         {/* info */}
         <div className="info">
           <h1>
-            project <span>management</span> app
+            Real Estate Project <span>Management</span> App
           </h1>
           <p>
-            Organize your work, manage team tasks, and track project progress
-            with ease. Stay focused and productive with real-time updates, smart
-            scheduling, and seamless collaboration — all in one powerful
+            Add and manage properties with ease — whether they’re
+            <strong>for rent</strong>,<strong>for sale</strong>,
+            <strong>occupied</strong>, or <strong>under maintenance</strong>.
+            Track property statuses in real time, monitor availability, and view
+            insightful statistics with monthly graphs — all in one powerful
             dashboard.
           </p>
 

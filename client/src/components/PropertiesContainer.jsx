@@ -17,7 +17,7 @@ const PropertiesContainer = () => {
   return (
     <Wrapper>
       <h5>
-        {totalProperties} job{properties.length > 1 && "s"} found
+        {totalProperties} properties {properties.length > 1 && "s"} found
       </h5>
       <div className="properties">
         {properties.map((property) => {
