@@ -109,6 +109,8 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cloudinary from "cloudinary";
 import cors from "cors";
+import helmet from "helmet";
+import mongoSanitize from "express-mongo-sanitize";
 
 // routers
 import propertyRouter from "./routes/propertyRouter.js";
@@ -159,6 +161,8 @@ app.use(
     credentials: true,
   })
 );
+app.use(helmet());
+app.use(mongoSanitize());
 
 // Routes
 app.get("/", (req, res) => {
